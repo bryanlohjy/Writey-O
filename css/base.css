@@ -91,7 +91,7 @@ small, .font_small {font-size: 0.707em;}
 	list-style-type: none;
 	margin: 0 auto;
 	width: 90%;
-	max-width: 1024px;
+	/* max-width: 1024px; */
 }
 
 #navBar ul li{
@@ -120,7 +120,7 @@ small, .font_small {font-size: 0.707em;}
 
 .navRound{
 	border: 2px solid rgba(255,255,255,0.4);
-	margin: 2px 0 0 10px !important;
+	margin: 2px 0 0 35px !important;
 	padding: 3px 20px !important;
 	border-radius: 40px;
 }
