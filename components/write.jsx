@@ -1,30 +1,30 @@
 var MainInterface = React.createClass({
-		render: function(){
-			return <h1>Dingus</h1>
+	getInitialState: function(){
+		return {
+			title: 'Started',
+			started: true
 		}
+	},
+
+	render: function(){
+		var started;
+		if (this.state.started){
+			started = "yes";
+		}
+
+		return (
+			<div>
+				<h2>{ started } { this.state.title }</h2>
+				<ul>
+					<li> Apple 222</li>
+					<li> potato 42</li>
+					<li> tomato 2</li>
+				</ul>
+			</div>
+		)
+	}
 });
 
-// var Checkbox = React.createClass({
-// 	getInitialState: function(){
-// 		return {checked: false}
-// 	},
-// 	handleCheck: function(){
-// 		this.setState({checked: !this.state.checked})
-// 	},
-// 	render: function(){
-// 		var msg;
-// 		if (this.state.checked){
-// 			msg="checked";
-// 		}else{
-// 			msg="unchecked";
-// 		}
-
-// 		return(<div>
-// 				<input type = "checkbox" onChange={this.handleCheck}/>
-// 				<p>{msg}</p>
-// 			</div>);
-// 	}
-// });
 
 
 ReactDOM.render(<MainInterface />,
