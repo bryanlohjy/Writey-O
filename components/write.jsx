@@ -112,7 +112,9 @@ var App = React.createClass({
   getInitialState: function() {
     return {
       promptNo: 1,
-      timeRemaining: 15
+      timeRemaining: 8,
+      items: [], 
+      text: ''
     }
   },
   tick: function() {
@@ -124,11 +126,32 @@ var App = React.createClass({
     if (this.state.timeRemaining == 0){
         this.resetCount();
         this.advancePromptNo();
+        this.submitBlank();
     }
   },
+
+  onChange: function(e) {
+    this.setState({text: e.target.value});
+  },
+  submitBlank: function() {
+    var nextItems = this.state.items.concat([{text: this.state.text, id: Date.now()}]);
+    var nextText = '';
+    this.setState({items: nextItems, text: nextText});
+  },
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var nextItems = this.state.items.concat([{text: this.state.text, id: Date.now()}]);
+    var nextText = '';
+    this.setState({items: nextItems, text: nextText});
+    if (this.state.timeRemaining != 0){
+      this.resetCount();
+      this.advancePromptNo();
+    }
+  },
+
   resetCount: function() {
     this.setState({
-      timeRemaining: 15
+      timeRemaining: 8
     });
   },
   advancePromptNo: function() {
@@ -156,7 +179,14 @@ var App = React.createClass({
           </div>
 
           <div className= "six columns" id="writeInput">
-            <Writing />
+            <div>
+              <h3>Write</h3>
+              <Entry items={this.state.items} />
+              <form onSubmit={this.handleSubmit}>
+                <input id="writeyoInput" onChange={this.onChange} value={this.state.text} />
+                <button>{'Add #' + (this.state.items.length + 1)}</button>
+              </form>
+            </div>
           </div>
         </div>
     )
@@ -179,10 +209,10 @@ var Prompt = React.createClass({
   getInitialState: function(){
     return {
       prompts : [
-        "write the letter a",
-        "write the letter b",
-        "write the letter c",
-        "write the letter d"
+        "Write a sentence without the letter 'R'",
+        "Use the word 'potato' in your sentence",
+        "Write a sentence exactly 6 syllables long",
+        "Write a sentence which contains both an adjective and a verb"
       ]
     }
   },
@@ -204,33 +234,6 @@ var Entry = React.createClass({
       return <li key={item.id}>{item.text}</li>;
     };9
     return <ul>{this.props.items.map(createItem)}</ul>;
-  }
-});
-
-var Writing = React.createClass({
-  getInitialState: function() {
-    return {items: [], text: ''};
-  },
-  onChange: function(e) {
-    this.setState({text: e.target.value});
-  },
-  handleSubmit: function(e) {
-    e.preventDefault();
-    var nextItems = this.state.items.concat([{text: this.state.text, id: Date.now()}]);
-    var nextText = '';
-    this.setState({items: nextItems, text: nextText});
-  },
-  render: function() {
-    return (
-      <div>
-        <h3>TODO</h3>
-        <Entry items={this.state.items} />
-        <form onSubmit={this.handleSubmit}>
-          <input onChange={this.onChange} value={this.state.text} />
-          <button>{'Add #' + (this.state.items.length + 1)}</button>
-        </form>
-      </div>
-    );
   }
 });
 
