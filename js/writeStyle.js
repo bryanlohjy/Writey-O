@@ -1,6 +1,10 @@
 // Define Breakpoints
 var breakpoint = 768;
 
+
+
+
+
 // Resize Divs to Body Height
 function fullHeight(elementID){
 	var navHeight = document.getElementById('navBar').clientHeight;
@@ -14,13 +18,16 @@ function checkWidth(){
 	return window.innerWidth;
 }
 
-// Running functions
-if (checkWidth()<=breakpoint){
-	document.getElementById('writeyO').style.height=200+'px';
-}
-else if (checkWidth()>breakpoint){
-	fullHeight('writeyO');
-}
+// // Running functions
+// document.addEventListener("DOMContentLoaded", function(event) { 
+// 	if (checkWidth()<=breakpoint){
+// 		document.getElementById('writeyO').style.height=200+'px';
+// 	}
+// 	else if (checkWidth()>breakpoint){
+// 		fullHeight('writeyO');
+// 	}
+// });
+// Functions are run within the React Components when rendered under "componentdidmount"
 
 // Run functions on resize
 window.onresize = function(event) {
