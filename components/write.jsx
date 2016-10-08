@@ -1,9 +1,10 @@
-// 
+// Parameters for write application
 var writeConfig= {
       time: initWrite.time,
       noPrompts: initWrite.noPrompts,
-      prompts:returnedPrompts
+      prompts: returnedPrompts
 };
+
 
 // Full page -------------------------------------------------------------
 var App = React.createClass({
@@ -55,7 +56,8 @@ var App = React.createClass({
     this.setState({
       promptNo: this.state.promptNo + 1
     });
-    if (this.state.promptNo-1 == writeConfig.noPrompts){
+    if (this.state.promptNo == writeConfig.noPrompts){
+      this.stopTimer();
       this.setState({
         done:true
       });
@@ -68,32 +70,63 @@ var App = React.createClass({
     fullHeight('writeyO');
     fullHeight('writeInput');
   },
+  stopTimer: function(){
+    clearInterval(this.interval);
+  },
   componentWillUnmount: function() {
     clearInterval(this.interval);
   },
-  render: function() {
-    return (
-        <div>
-          <div className= "six columns" id="writeyO">
-            <Timer timeRemaining={this.state.timeRemaining}/>
-            <Prompt promptNo = {this.state.promptNo}/>
-          </div>
+  conditionalRender: function() {
+    // returning active vs. inactive states
+    if (this.state.done == false) {
+      return (
+          <div>
+            <div className= "six columns" id="writeyO">
+              <Timer timeRemaining={this.state.timeRemaining}/>
+              <Prompt promptNo = {this.state.promptNo}/>
+            </div>
 
-          <div className= "six columns" id="writeInput">
-            <div>
-              <h3>Write</h3>
-              <Entry items={this.state.items} />
-              <form onSubmit={this.handleSubmit}>
-                <input id="writeyoInput" onChange={this.onChange} value={this.state.text} autoComplete="off"/>
-                <button>{'Add #' + (this.state.items.length + 1)}</button>
-              </form>
+            <div className= "six columns" id="writeInput">
+              <div>
+                <h3>Write</h3>
+                <Entry items={this.state.items} />
+                <form onSubmit={this.handleSubmit}>
+                  <input id="writeyoInput" onChange={this.onChange} value={this.state.text} autoComplete="off"/>
+                  <button>Write</button>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
+      )
+    } else {
+      return(
+          <div>
+            <div className= "six columns" id="writeyO">
+              <Prompt promptNo = "Done"/>
+            </div>
+
+            <div className= "six columns" id="writeInput">
+              <div>
+                <h3>Write</h3>
+                <Entry items={this.state.items} />
+                <form onSubmit={this.handleSubmit}>
+                  <input id="writeyoInput" onChange={this.onChange} value={this.state.text} autoComplete="off"/>
+                  <button>Save</button>
+                </form>
+              </div>
+            </div>
+          </div>
+      )
+    }
+  },
+  render: function() {
+    return (
+       <div className="component">
+          {this.conditionalRender()}
+       </div>
     )
   }
 });
-
 
 var Timer = React.createClass({
   render: function(){
