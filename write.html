@@ -36,6 +36,35 @@
 		<link rel="stylesheet" href="css/write.css">
 
 
+
+
+
+	
+</head>
+
+	<body>
+
+		<!-- Navbar -->
+	    <nav id="navBar" class="center-container">
+	    	<div class="absolute-center">
+				<ul>
+				  <li><a href="index.html" id="navLogo" class="left">writey-o</a></li>
+				  <li><a href="login.html" class="right navLink navRound">log in / register</a></li>
+				  <li><a href="read.html" class="right navLink">read</a></li>
+				  <li><a href="write.html" class="right navLink active">write</a></li>
+				</ul>
+			</div>
+	    </nav>
+
+
+
+		<!-- Interface -->
+		<div id="body">
+		</div>
+
+
+<!-- Scripts//////////////////////////////////////////////////////////////////////////// -->
+		<!-- Firebase + ReactFire -->
 		<!-- Firebase -->
 		<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 
@@ -50,24 +79,25 @@
 		    messagingSenderId: "887689421908"
 		  };
 		  firebase.initializeApp(config);
-		</script>	
-	</head>
+		</script>
 
-	<body>
+		<!-- ReactFire -->
+		<script src="https://cdn.firebase.com/libs/reactfire/1.0.0/reactfire.min.js"></script>
 
-		<!-- Navbar -->
-	    <nav id="navBar" class="center-container">
-	    	<div class="absolute-center">
-				<ul>
-				  <li><a href="index.html" id="navLogo" class="active left">writey-o</a></li>
-				  <li><a href="login.html" class="right  navLink navRound">log in / register</a></li>
-				  <li><a href="read.html" class="right  navLink">read</a></li>
-				  <li><a href="write.html" class="right navLink">write</a></li>
-				</ul>
-			</div>
-	    </nav>
-		<div>
-			Home Page
-		</div>
+		<!-- Initialising writing interface parameters -->
+		<script type = "text/javascript">
+			var initWrite= {
+			  time: 15,
+			  noPrompts: 8,
+			  prompts:8
+			};
+		</script>
+		<!-- Prompt List-->
+		<script src="js/generatePrompts.js" type="text/javascript" ></script>
+		<!-- React Components -->
+		<script src="components/write.jsx" type="text/babel" ></script>
+
+		<!-- Applying Write Styles -->
+		<script src="js/writeStyle.js" type="text/javascript"></script>
 	</body>
 </html>
