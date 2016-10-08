@@ -20,7 +20,8 @@ var App = React.createClass({
       timeRemaining: writeConfig.time,
       items: [], 
       text: '',
-      done: false
+      done: false,
+      started: false
     }
   },
   tick: function() {
@@ -83,11 +84,17 @@ var App = React.createClass({
     }.bind(this));
   },
   componentDidMount: function() {
-    // countdown every second
-    this.interval = setInterval(this.tick, 1000);
     // applying styles
     fullHeight('writeyO');
     fullHeight('writeInput');
+  },
+  startTimer: function(e){
+    e.preventDefault();
+    // countdown every second
+    this.setState({
+      started: true
+    });
+    this.interval = setInterval(this.tick, 1000);
   },
   stopTimer: function(){
     clearInterval(this.interval);
@@ -98,54 +105,74 @@ var App = React.createClass({
       items: this.state.items
     });
     // this.setState({text: ""});
-
   },
   componentWillUnmount: function() {
     clearInterval(this.interval);
     this.firebaseRef.off();
   },
   conditionalRender: function() {
-    // returning active vs. inactive states
-    if (this.state.done == false) {
-      return (
-          <div>
-            <div className= "six columns" id="writeyO">
-              <Timer timeRemaining={this.state.timeRemaining}/>
-              <Prompt promptNo = {this.state.promptNo}/>
-            </div>
+    // if the user has not started
+    if (this.state.started == false){
+       return (
+            <div>
+              <div className= "six columns" id="writeyO">
+                <Timer timeRemaining='xx'/>
+                <Prompt promptNo = 'havenotstarted'/>
+              </div>
 
-            <div className= "six columns" id="writeInput">
-              <div>
-                <h3>Write</h3>
-                <Entry items={this.state.items} />
-                <form onSubmit={this.handleSubmit}>
-                  <input id="writeyoInput" onChange={this.onChange} value={this.state.text} autoComplete="off"/>
-                  <button>Write</button>
-                </form>
+              <div className= "six columns" id="writeInput">
+                <div>
+                  <h3>Click to start</h3>
+                  <form onSubmit={this.startTimer}>
+                    <button>Write</button>
+                  </form>
+                </div>
               </div>
             </div>
-          </div>
-      )
-    } else {
-      return(
-          <div>
-            <div className= "six columns" id="writeyO">
-              <Prompt promptNo = "Done"/>
-            </div>
+        )
+    } else if (this.state.started == true) {
+      if (this.state.done == false) {
+       return (
+            <div>
+              <div className= "six columns" id="writeyO">
+                <Timer timeRemaining={this.state.timeRemaining}/>
+                <Prompt promptNo = {this.state.promptNo}/>
+              </div>
 
-            <div className= "six columns" id="writeInput">
-              <div>
-                <h3>Write</h3>
-                <Entry items={this.state.items} />
-                <form onSubmit={this.saveOutput}>
-                  <input id="writeyoInput" onChange={this.onChange} value={this.state.text} autoComplete="off"/>
-                  <button>Save</button>
-                </form>
+              <div className= "six columns" id="writeInput">
+                <div>
+                  <h3>Write</h3>
+                  <Entry items={this.state.items} />
+                  <form onSubmit={this.handleSubmit}>
+                    <input id="writeyoInput" onChange={this.onChange} value={this.state.text} autoComplete="off"/>
+                    <button>Write</button>
+                  </form>
+                </div>
               </div>
             </div>
-          </div>
-      )
+        )
+      } else {
+        return(
+            <div>
+              <div className= "six columns" id="writeyO">
+                <Prompt promptNo = "Done"/>
+              </div>
+
+              <div className= "six columns" id="writeInput">
+                <div>
+                  <h3>Write</h3>
+                  <Entry items={this.state.items} />
+                  <form onSubmit={this.saveOutput}>
+                    <input id="writeyoInput" onChange={this.onChange} value={this.state.text} autoComplete="off"/>
+                    <button>Save</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+        )
+      }     
     }
+
   },
   render: function() {
     return (
