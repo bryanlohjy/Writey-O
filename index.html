@@ -15,6 +15,7 @@
 		<!-- React JS -->
 		<script src="js/react.min.js"></script>
 		<script src="js/react-dom.min.js"></script>
+
 		<!-- Babel JSX Compiler -->
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.29/browser.min.js"></script>
 
@@ -33,7 +34,9 @@
 		<!-- Writey-O Styling -->
 		<link rel="stylesheet" href="css/base.css">
 		<link rel="stylesheet" href="css/write.css">
-<!-- 		<link rel="stylesheet" href="css/write.css"> -->
+
+
+
 
 
 	
@@ -59,10 +62,32 @@
 		<div id="body">
 		</div>
 
+
+<!-- Scripts//////////////////////////////////////////////////////////////////////////// -->
+		<!-- Firebase + ReactFire -->
+		<!-- Firebase -->
+		<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+
+		<!-- initialising Firebase -->
+		<script>
+		  // Initialize Firebase
+		  var config = {
+		    apiKey: "AIzaSyDJ6ipfKXLDwoXIdCQwFWfHkJj3v3YfZNo",
+		    authDomain: "writey-o.firebaseapp.com",
+		    databaseURL: "https://writey-o.firebaseio.com",
+		    storageBucket: "writey-o.appspot.com",
+		    messagingSenderId: "887689421908"
+		  };
+		  firebase.initializeApp(config);
+		</script>
+
+		<!-- ReactFire -->
+		<script src="https://cdn.firebase.com/libs/reactfire/1.0.0/reactfire.min.js"></script>
+
 		<!-- Initialising writing interface parameters -->
 		<script type = "text/javascript">
 			var initWrite= {
-			  time: 8,
+			  time: 15,
 			  noPrompts: 8,
 			  prompts:8
 			};

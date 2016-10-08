@@ -5,9 +5,15 @@ var writeConfig= {
       prompts: returnedPrompts
 };
 
+var writeOutput ="ppppp";
+function writeOutput () {
+  console.log(writeOutput);
+};
 
 // Full page -------------------------------------------------------------
 var App = React.createClass({
+  mixins: [ReactFireMixin],
+
   getInitialState: function() {
     return {
       promptNo: 1,
@@ -58,10 +64,23 @@ var App = React.createClass({
     });
     if (this.state.promptNo == writeConfig.noPrompts){
       this.stopTimer();
+      this.textOut();
       this.setState({
         done:true
       });
     }
+  },
+  textOut: function() {
+    console.log("exportnow");
+  },
+  componentWillMount: function() {
+    this.firebaseRef = firebase.database().ref("items");
+    this.firebaseRef.on("child_added", function(dataSnapshot) {
+      this.items.push(dataSnapshot.val());
+      this.setState({
+        items: this.items
+      });
+    }.bind(this));
   },
   componentDidMount: function() {
     // countdown every second
@@ -73,8 +92,16 @@ var App = React.createClass({
   stopTimer: function(){
     clearInterval(this.interval);
   },
+  saveOutput: function(){
+    this.firebaseRef.push({
+      items: this.state.items
+    });
+    // this.setState({text: ""});
+
+  },
   componentWillUnmount: function() {
     clearInterval(this.interval);
+    this.firebaseRef.off();
   },
   conditionalRender: function() {
     // returning active vs. inactive states
@@ -109,7 +136,7 @@ var App = React.createClass({
               <div>
                 <h3>Write</h3>
                 <Entry items={this.state.items} />
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.saveOutput}>
                   <input id="writeyoInput" onChange={this.onChange} value={this.state.text} autoComplete="off"/>
                   <button>Save</button>
                 </form>
@@ -167,4 +194,6 @@ var Entry = React.createClass({
 });
 
 ReactDOM.render(<App />, document.getElementById('body'));
+
+
 
