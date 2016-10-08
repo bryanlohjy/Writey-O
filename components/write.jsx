@@ -93,6 +93,7 @@ var App = React.createClass({
     clearInterval(this.interval);
   },
   saveOutput: function(){
+    // preventDefault();
     this.firebaseRef.push({
       items: this.state.items
     });
