@@ -10,6 +10,18 @@ var promptList= [
   "sentence which contains both an adjective and a verb"
 ]
 
+function getPrompts(numberOfPrompts){
+	var selectedPrompts = new Array();
+	for (i=0;i<numberOfPrompts;i++){
+		selectedPrompts.push(promptList[i]);
+	}
+	return selectedPrompts;
+}
+
+var returnedPrompts = getPrompts(initWrite.prompts);
+
+
+
 // nouns
 
 // adjectives

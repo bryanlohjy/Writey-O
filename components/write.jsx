@@ -1,16 +1,8 @@
-var initWrite= {
-  time: 8,
-  noPrompts: 8,
-  prompts: [
-    "1apple",
-    "2cat",
-    "3dog",
-    "4mouse",
-    "5tree",
-    "6computer",
-    "7potttaato",
-    "8mushroom"
-  ]
+// 
+var writeConfig= {
+      time: initWrite.time,
+      noPrompts: initWrite.noPrompts,
+      prompts:returnedPrompts
 };
 
 // Full page -------------------------------------------------------------
@@ -18,9 +10,10 @@ var App = React.createClass({
   getInitialState: function() {
     return {
       promptNo: 1,
-      timeRemaining: initWrite.time,
+      timeRemaining: writeConfig.time,
       items: [], 
-      text: ''
+      text: '',
+      done: false
     }
   },
   tick: function() {
@@ -55,13 +48,18 @@ var App = React.createClass({
   },
   resetCount: function() {
     this.setState({
-      timeRemaining: initWrite.time
+      timeRemaining: writeConfig.time
     });
   },
   advancePromptNo: function() {
     this.setState({
       promptNo: this.state.promptNo + 1
     });
+    if (this.state.promptNo-1 == writeConfig.noPrompts){
+      this.setState({
+        done:true
+      });
+    }
   },
   componentDidMount: function() {
     // countdown every second
@@ -111,7 +109,7 @@ var Timer = React.createClass({
 var Prompt = React.createClass({
   getInitialState: function(){
     return {
-      prompts: initWrite.prompts
+      prompts: writeConfig.prompts
     }
   },
   render: function(){
@@ -136,3 +134,4 @@ var Entry = React.createClass({
 });
 
 ReactDOM.render(<App />, document.getElementById('body'));
+
