@@ -3,11 +3,7 @@ var writeConfig= {
       time: initWrite.time,
       noPrompts: initWrite.noPrompts,
       prompts: returnedPrompts
-};
 
-var writeOutput ="ppppp";
-function writeOutput () {
-  console.log(writeOutput);
 };
 
 // Full page -------------------------------------------------------------
@@ -75,7 +71,7 @@ var App = React.createClass({
     console.log("exportnow");
   },
   componentWillMount: function() {
-    this.firebaseRef = firebase.database().ref("items");
+    this.firebaseRef = firebase.database().ref("prompts");
     this.firebaseRef.on("child_added", function(dataSnapshot) {
       this.items.push(dataSnapshot.val());
       this.setState({
@@ -117,7 +113,7 @@ var App = React.createClass({
             <div>
               <div className= "six columns" id="writeyO">
                 <Timer timeRemaining='xx'/>
-                <Prompt promptNo = 'havenotstarted'/>
+                <div>Have not Started</div>
               </div>
 
               <div className= "six columns" id="writeInput">
@@ -155,7 +151,7 @@ var App = React.createClass({
         return(
             <div>
               <div className= "six columns" id="writeyO">
-                <Prompt promptNo = "Done"/>
+                <div>Done</div>
               </div>
 
               <div className= "six columns" id="writeInput">
@@ -204,7 +200,7 @@ var Prompt = React.createClass({
     return (
       <div>
         <div>{this.props.promptNo}</div>
-        <div>{this.state.prompts[this.props.promptNo-1]}</div>
+        <div>{this.state.prompts[this.props.promptNo-1].prompt}</div>
       </div>
     )
   }
