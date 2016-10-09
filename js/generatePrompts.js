@@ -20,15 +20,15 @@ function getRandomInt(min, max) {
 
 function getRandomChar(string) {
 	var min = 0;
-	var max = string.length;
+	var max = string.length-1;
     var rand = Math.floor(Math.random() * (max - min + 1)) + min;
     return string.charAt(rand);
 }
 
 function getRandomObject(object) {
 	var min = 0;
-	var max = object.length;
-    var rand = Math.floor(Math.random() * (max - min)) + min;
+	var max = object.length-1;
+    var rand = Math.floor(Math.random() * (max - min + 1)) + min;
     return object[rand];
 }
 
@@ -49,70 +49,70 @@ function getPrompts(numberOfPrompts){
 		var randomNumber = getRandomInt(0,8);
 		var param;
 		var prompt;
-		var searchIndex;
+		var promptType;
 		switch (randomNumber) {
 		// create cases
 			// expression - exclude certain letter
 		    case 0:
 		    	param = [getRandomChar(promptTools.alphabet)];
 		        prompt = "Exclude the letter '" + param[0] + "' in your sentence.";
-		        searchIndex = "exclLetter";
+		        promptType = "exclLetter";
 		        break; 
 		    // vowels -----------------------------------------------------------------------------
 		    // univocal - only one vowel letter
 		    case 1:
 		    	param = [getRandomChar(promptTools.vowels)];
 		        prompt = "Use no other vowel than '" + param[0] + "' in your sentence.";
-		        searchIndex = "exclVowel";
+		        promptType = "exclVowel";
 		        break; 
 		    // include certain words  ------------------------------------------------------
 		    // two words
 		    case 2:
 		    	param = [getRandomObject(promptTools.adjectives),getRandomObject(promptTools.nouns)];
 		        prompt = "Include the words '" + param[0] + "' and '" + param[1] + "' in your sentence.";
-		        searchIndex = "inclAdjectiveNoun";
+		        promptType = "inclAdjectiveNoun";
 		        break; 
 		    // one word
 		    case 3:
 		    	param = [getRandomObject(promptTools.words)];
 		        prompt = "Include the word '" + param[0] + "' in your sentence.";
-		        searchIndex = "inclWord";
+		        promptType = "inclWord";
 		        break; 
 		    // noun
 		    case 4:
 		    	param = [getRandomObject(promptTools.nouns)];
 		        prompt = "Include the word '" + param[0] + "' in your sentence.";
-		        searchIndex = "inclNoun";
+		        promptType = "inclNoun";
 		        break; 
 		    // adjective
 		    case 5:
 		    	param = [getRandomObject(promptTools.adjectives)];
 		        prompt = "Include the word '" + param[0] + "' in your sentence.";
-		        searchIndex = "inclAdjective";
+		        promptType = "inclAdjective";
 		        break; 
 		    // syllables ------------------------------------------------------
 			//  exact number of syllables
 		    case 6:
 		    	param = [getRandomInt(promptTools.syllableRange[0],promptTools.syllableRange[1])]
 		        prompt = "Write a sentence exactly " + param[0] + " syllables long."
-		        searchIndex = "exactlySyllable";
+		        promptType = "exactlySyllable";
 		        break; 
 		    // more than number of syllables
 		    case 7:
 		    	param = [promptTools.syllableRange[0]]
 		        prompt = "Write a sentence more than " + param[0] + " syllables long."
-		        searchIndex = "morethanSyllable";
+		        promptType = "morethanSyllable";
 		        break; 
 		    // less than number of syllables
 		    case 8:
 		    	param = [getRandomInt(promptTools.syllableRange[0]+1,promptTools.syllableRange[1])]
 		        prompt = "Write a sentence less than " + param[0] + " syllables long."
-		        searchIndex = "lessthanSyllable";
+		        promptType = "lessthanSyllable";
 		        break; 
 		}
 		var entry = {
 			prompt: prompt,
-			searchIndex: searchIndex,
+			promptType: promptType,
 			param: param
 		}
 		selectedPrompts.push(entry);

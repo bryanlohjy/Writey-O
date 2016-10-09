@@ -1,3 +1,29 @@
+// Current Data Structure============
+// writey-o
+  //  prompts
+    //  -KTZ2WyCHNCga5A_qhfZ
+      //  items
+        //  0
+          // id
+          // text
+// Proposed Data Structure============
+// writey-o
+  // User
+    //-KTZ2WyCHNCga5A_qhfZ
+      //  entry 1
+        // prompt
+          // search index
+          // parameters
+        // response
+      //  entry 2
+        // prompt
+          // search index
+          // parameters
+        // response
+      //  etx
+
+
+
 // Parameters for write application
 var writeConfig= {
       time: initWrite.time,
@@ -15,9 +41,10 @@ var App = React.createClass({
       promptNo: 1,
       timeRemaining: writeConfig.time,
       items: [], 
-      text: '',
+      response: '',
       done: false,
-      started: false
+      started: false,
+      prompt: writeConfig.prompts[0]
     }
   },
   tick: function() {
@@ -33,18 +60,18 @@ var App = React.createClass({
     }
   },
   onChange: function(e) {
-    this.setState({text: e.target.value});
+    this.setState({response: e.target.value});
   },
   submitBlank: function() {
-    var nextItems = this.state.items.concat([{text: this.state.text, id: Date.now()}]);
+    var nextItems = this.state.items.concat([{response: this.state.response, timestamp: Date.now(), prompt: this.state.prompt.prompt, promptType: this.state.prompt.promptType, promptParam: this.state.prompt.param}]);
     var nextText = '';
-    this.setState({items: nextItems, text: nextText});
+    this.setState({items: nextItems, response: nextText});
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    var nextItems = this.state.items.concat([{text: this.state.text, id: Date.now()}]);
+    var nextItems = this.state.items.concat([{response: this.state.response, timestamp: Date.now(), prompt: this.state.prompt.prompt, promptType: this.state.prompt.promptType, promptParam: this.state.prompt.param}]);
     var nextText = '';
-    this.setState({items: nextItems, text: nextText});
+    this.setState({items: nextItems, response: nextText});
     if (this.state.timeRemaining != 0){
       this.resetCount();
       this.advancePromptNo();
@@ -57,27 +84,24 @@ var App = React.createClass({
   },
   advancePromptNo: function() {
     this.setState({
-      promptNo: this.state.promptNo + 1
+      promptNo: this.state.promptNo + 1,
     });
+    this.advancePrompt();
+    // if prompt number reaches final amount
     if (this.state.promptNo == writeConfig.noPrompts){
       this.stopTimer();
-      this.textOut();
       this.setState({
         done:true
       });
     }
   },
-  textOut: function() {
-    console.log("exportnow");
+  advancePrompt: function() {
+    this.setState({
+      prompt: writeConfig.prompts[this.state.promptNo]
+    });
   },
   componentWillMount: function() {
-    this.firebaseRef = firebase.database().ref("prompts");
-    this.firebaseRef.on("child_added", function(dataSnapshot) {
-      this.items.push(dataSnapshot.val());
-      this.setState({
-        items: this.items
-      });
-    }.bind(this));
+    this.firebaseRef = firebase.database().ref("write");
   },
   componentDidMount: function() {
     // applying styles
@@ -132,7 +156,7 @@ var App = React.createClass({
             <div>
               <div className= "six columns" id="writeyO">
                 <Timer timeRemaining={this.state.timeRemaining}/>
-                <Prompt promptNo = {this.state.promptNo}/>
+                <Prompt promptNo = {this.state.promptNo} prompt={this.state.prompt}/>
               </div>
 
               <div className= "six columns" id="writeInput">
@@ -140,7 +164,7 @@ var App = React.createClass({
                   <h3>Write</h3>
                   <Entry items={this.state.items} />
                   <form onSubmit={this.handleSubmit}>
-                    <input id="writeyoInput" onChange={this.onChange} value={this.state.text} autoComplete="off"/>
+                    <input id="writeyoInput" onChange={this.onChange} value={this.state.response} autoComplete="off"/>
                     <button>Write</button>
                   </form>
                 </div>
@@ -159,7 +183,7 @@ var App = React.createClass({
                   <h3>Write</h3>
                   <Entry items={this.state.items} />
                   <form onSubmit={this.saveOutput}>
-                    <input id="writeyoInput" onChange={this.onChange} value={this.state.text} autoComplete="off"/>
+                    <input id="writeyoInput" onChange={this.onChange} value={this.state.response} autoComplete="off"/>
                     <button>Save</button>
                   </form>
                 </div>
@@ -200,7 +224,7 @@ var Prompt = React.createClass({
     return (
       <div>
         <div>{this.props.promptNo}</div>
-        <div>{this.state.prompts[this.props.promptNo-1].prompt}</div>
+        <div>{this.props.prompt.prompt}</div>
       </div>
     )
   }
@@ -211,7 +235,7 @@ var Prompt = React.createClass({
 var Entry = React.createClass({
   render: function() {
     var createItem = function(item) {
-      return <li key={item.id}>{item.text}</li>;
+      return <li key={item.timestamp}>{item.response}</li>;
     };
     return <ul>{this.props.items.map(createItem)}</ul>;
   }
