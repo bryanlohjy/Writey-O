@@ -150,6 +150,10 @@ small, .font_small {font-size: 0.707em;}
 		width:100%;
 		text-align: center;
 	}
+
+	#navBar ul li a{
+		padding: 0;
+	}
 }
 
 /*---------------------------------------------------------------------------*/
