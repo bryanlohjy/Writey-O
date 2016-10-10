@@ -4,7 +4,7 @@ var ref = firebase.database().ref("write");
 
 var storyIndex = 0;
 
-var returnedStories = retrieveStories();
+// var returnedStories = retrieveStories();
 
 // Looping through entries to return story objects
 function retrieveStories(){
@@ -14,9 +14,10 @@ function retrieveStories(){
 			var key = childSnapshot.key;
 			var rawData = childSnapshot.val();
 			var singleStory = [];
-			var noPrompts = rawData.items.length;
+			var retrieveNoPrompts = childSnapshot.val().items.length;
+			console.log(rawData.items.length);
 			// iterate through object to return all responses
-			for (i=0;i<noPrompts;i++){
+			for (i=0;i<retrieveNoPrompts;i++){
 				// returning response
 				var singleResponse = rawData.items[i].response
 				// appending response to story array
@@ -49,6 +50,8 @@ ref.once("value").then(function(snapshot) {
 		returnedStories.push(singleStory);
 	});
 });
+
+retrieveStories();
 
 
 
