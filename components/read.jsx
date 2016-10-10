@@ -60,10 +60,15 @@ var stories = [
 var App = React.createClass({
 	getInitialState: function() {
 		return {
-			stories: returnedStories
+			stories: []
 		}
 	},
 	componentDidMount: function() {
+	},
+	componentWillMount: function() {
+		// this.setState({
+		// 	stories: retrieveStories();
+		// });
 	},
     render: function() {
         var storyComponents = stories.map(function(story,index) {
@@ -127,4 +132,3 @@ ReactDOM.render(<App />, document.getElementById('body'));
 //         return  <ul>{ namesList }</ul>
 //     }
 // });
-
