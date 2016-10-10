@@ -1,32 +1,70 @@
+// Parameters for read interface
+// var readConfig= {
+//       stories: returnedStories
+// };Z
+
+// var App = React.createClass({
+// 	getInitialState: function() {
+// 	    return {
+// 	      stories: readConfig.stories
+// 	    }
+// 	},
+// 	componentDidMount: function() {
+// 		// applying styles
+// 		fullHeight('columns');
+// 	},
+//     render: function() {
+//         var storyComponents = this.state.stories.map(function(stories) {
+//             return <div>{stories}</div>;
+//         });
+//         return <div id="columns">{storyComponents}</div>;
+//     }
+// });
+
+// var StoryItem = React.createClass({
+// 	render: function() {
+// 		return (
+// 		    <div className="storyItem">
+// 		        {this.props.}
+// 		    </div>
+// 		)
+// 	}
+// });
+
+
+// ReactDOM.render(<Test />, document.getElementById('body'));
+
+
+var stories = [
+	["What does pittance even mean", 
+	"Hallucinations are more frequent ", 
+	"I love almonds",
+	 "I love almonds",
+	 "four sllyblea?",
+	 "I wish I had a cellmate",
+	 "That wasn't a deviant",
+	 "such wishful thinking"
+	],
+	["I would love to sublet my apartment",
+	 "ONLY",
+	 "my apartment, but it happens to be too vertiva",
+	 "That is fine, I can find a tall person",
+	 "to rent my apartment",
+	 "In the event that they are insensitive, I would wid",
+	 "DAMNATION UPON THEM",
+	 "RAAAAARR RARR ARR"]
+]; 
+
+// var stories = returnedStories;
+
 var App = React.createClass({
-<<<<<<< HEAD
 	getInitialState: function() {
 		return {
 			stories: []
 		}
 	},
-=======
->>>>>>> parent of 1c1c8ed... Stories append with ids
 	componentDidMount: function() {
-		// applying styles
-		fullHeight('columns');
 	},
-	render: function(){
-		return (
-			<div id="columns">
-				<StoryItem />
-				<StoryItem />
-				<StoryItem />
-				<StoryItem />
-				<StoryItem />
-				<StoryItem />
-				<StoryItem />
-				<StoryItem />
-				<StoryItem />
-			</div>
-		)
-	},
-<<<<<<< HEAD
 	componentWillMount: function() {
 		// this.setState({
 		// 	stories: retrieveStories();
@@ -41,22 +79,20 @@ var App = React.createClass({
         })
         return <div id="columns">{storyComponents}</div>;
     }
-=======
->>>>>>> parent of 1c1c8ed... Stories append with ids
 });
 
+
 var StoryItem = React.createClass({
-	render: function() {
-		return (
-		    <div className="storyItem">
-		        <p>Put a bird on it viral wolf, 3 wolf moon ... </p>
-		    </div>
-		)
+	handleClick: function(){
+		console.log("potato has been clicked");
+		console.log(this.props.key);
+	},
+	render: function(){
+		return <ul className="storyItem" onClick={this.handleClick}>{this.props.storyNo}{this.props.story}</ul>
 	}
 });
 
 
-<<<<<<< HEAD
 
 ReactDOM.render(<App />, document.getElementById('body'));
 
@@ -96,6 +132,3 @@ ReactDOM.render(<App />, document.getElementById('body'));
 //         return  <ul>{ namesList }</ul>
 //     }
 // });
-=======
-ReactDOM.render(<App />, document.getElementById('body'));
->>>>>>> parent of 1c1c8ed... Stories append with ids

@@ -1,35 +1,8 @@
-// Current Data Structure============
-// writey-o
-  //  prompts
-    //  -KTZ2WyCHNCga5A_qhfZ
-      //  items
-        //  0
-          // id
-          // text
-// Proposed Data Structure============
-// writey-o
-  // User
-    //-KTZ2WyCHNCga5A_qhfZ
-      //  entry 1
-        // prompt
-          // search index
-          // parameters
-        // response
-      //  entry 2
-        // prompt
-          // search index
-          // parameters
-        // response
-      //  etx
-
-
-
 // Parameters for write application
 var writeConfig= {
       time: initWrite.time,
       noPrompts: initWrite.noPrompts,
       prompts: returnedPrompts
-
 };
 
 // Full page -------------------------------------------------------------
