@@ -30,11 +30,12 @@ function checkWidth(){
 // Functions are run within the React Components when rendered under "componentdidmount"
 
 // Run functions on resize
-window.onresize = function(event) {
-	if (checkWidth()<=breakpoint){
-		document.getElementById('columns').style.height=200+'px';
-	}
-	else if (checkWidth()>breakpoint){
-		fullHeight('columns');
-	}
-};
+// window.onresize = function(event) {
+// 	if (checkWidth()<=breakpoint){
+// 		document.getElementById('columns').style.height=200+'px';
+// 	}
+// 	else if (checkWidth()>breakpoint){
+// 		fullHeight('columns');
+// 	}
+// };
+fullHeight('columns');
