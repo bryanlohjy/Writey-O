@@ -2,7 +2,7 @@ var App = React.createClass({
 <<<<<<< HEAD
 	getInitialState: function() {
 		return {
-			stories: returnedStories
+			stories: []
 		}
 	},
 =======
@@ -11,7 +11,6 @@ var App = React.createClass({
 		// applying styles
 		fullHeight('columns');
 	},
-<<<<<<< HEAD
 	render: function(){
 		return (
 			<div id="columns">
@@ -33,8 +32,6 @@ var App = React.createClass({
 		// 	stories: retrieveStories();
 		// });
 	},
-=======
->>>>>>> parent of 6cd15c9... Derp
     render: function() {
         var storyComponents = stories.map(function(story,index) {
         	var sentences = stories[index].map(function(sentence,i) {
@@ -99,10 +96,6 @@ ReactDOM.render(<App />, document.getElementById('body'));
 //         return  <ul>{ namesList }</ul>
 //     }
 // });
-<<<<<<< HEAD
 =======
 ReactDOM.render(<App />, document.getElementById('body'));
 >>>>>>> parent of 1c1c8ed... Stories append with ids
-=======
-
->>>>>>> parent of 6cd15c9... Derp
