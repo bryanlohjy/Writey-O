@@ -55,17 +55,27 @@ var stories = [
 	 "RAAAAARR RARR ARR"]
 ]; 
 
+
+var Globe ={
+	returnedStories: readInit.returnedStories
+};
+// var stories = readInit.returnedStories;
+var cattt = 2;
 // var stories = returnedStories;
 
 var App = React.createClass({
 	getInitialState: function() {
 		return {
-			stories: []
+			stories: [],
 		}
 	},
 	componentDidMount: function() {
 	},
 	componentWillMount: function() {
+		this.setState({
+			stories: readInit.returnedStories
+		})
+		// readInit.retrieveStories();
 		// this.setState({
 		// 	stories: retrieveStories();
 		// });

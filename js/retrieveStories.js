@@ -4,18 +4,42 @@ var ref = firebase.database().ref("write");
 
 var storyIndex = 0;
 
-// var returnedStories = retrieveStories();
+var initialDataLoaded = false;
 
+var storyArray = [];
 // Looping through entries to return story objects
+function populateRead(stories){
+	var dom = {
+		body:document.getElementById("body"),
+		columns: document.getElementById("columns")
+	}
+
+	console.log("cat");
+	console.log(stories.length);
+	console.log(stories);
+	// create card for each story
+	for (var storyIndex=0;storyIndex<stories.length;storyIndex++){
+		console.log(storyIndex);
+		var storyDiv = document.createElement("ul");
+		storyDiv.className = "storyItem";
+		// appending list of responses to card
+		for (var responseIndex=0;responseIndex<stories[storyIndex].length;responseIndex++){
+			console.log(responseIndex);
+			var singleResponse = document.createElement("li");
+			singleResponse.innerHTML = stories[storyIndex][responseIndex];
+			storyDiv.appendChild(singleResponse);
+		}
+		dom.columns.appendChild(storyDiv);
+	}
+}
+
 function retrieveStories(){
-	var storyArray = [];
 	ref.once("value").then(function(snapshot) {
 		snapshot.forEach(function(childSnapshot) {
 			var key = childSnapshot.key;
 			var rawData = childSnapshot.val();
 			var singleStory = [];
 			var retrieveNoPrompts = childSnapshot.val().items.length;
-			console.log(rawData.items.length);
 			// iterate through object to return all responses
 			for (i=0;i<retrieveNoPrompts;i++){
 				// returning response
@@ -26,27 +50,14 @@ function retrieveStories(){
 			// appending whole single story as into global array
 			storyArray.push(singleStory);
 		});
+		initialDataLoaded = true;
+		console.log(initialDataLoaded);
+		if (initialDataLoaded){
+			populateRead(storyArray);
+		}
 	});
-	return storyArray;
+
+
 };
 
 retrieveStories();
-
-
-
-      // console.log(rawData.items[0].prompt);
-      // // var response = key.items.length;
-      // console.log(rawData.items.length);
-
-
-
-      
-// componentWillMount: function() {
-//   this.firebaseRef = new Firebase("https://ReactFireTodoApp.firebaseio.com/items");
-//   this.firebaseRef.on("child_added", function(dataSnapshot) {
-//     this.items.push(dataSnapshot.val());
-//     this.setState({
-//       items: this.items
-//     });
-//   }.bind(this));
-// }
