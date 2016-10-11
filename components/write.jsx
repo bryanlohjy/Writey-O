@@ -78,7 +78,7 @@ var App = React.createClass({
 
   },
   startTimer: function(e){
-    e.preventDefault();
+    // e.preventDefault();
     // countdown every second
     this.setState({
       started: true
@@ -88,6 +88,7 @@ var App = React.createClass({
   stopTimer: function(){
     clearInterval(this.interval);
   },
+
   restart: function(){
     this.firebaseRef.push({
       items: this.state.items
@@ -105,11 +106,24 @@ var App = React.createClass({
     clearInterval(this.interval);
     this.firebaseRef.off();
   },
+  componentDidMount: function(){
+    document.addEventListener("keydown", this.splashKeyPress, false);
+  },
+  splashKeyPress: function(z){
+    var keyCode = z.keyCode;
+    if(keyCode==13) {
+      this.startTimer();
+      console.log("enterr");
+    } else {
+      console.log("notenetrer");
+    }
+    document.removeEventListener("keydown", this.splashKeyPress, false);
+  },
   conditionalRender: function() {
     // if the user has not started
     if (this.state.started == false){
        return (
-            <Splash onClick={this.startTimer} />
+            <Splash onClick={this.startTimer} onKeyPress={this.splashKeyPress}/>
         )
     // User has started
     } else if (this.state.started == true) {
@@ -137,9 +151,10 @@ var App = React.createClass({
 });
 
 var Splash = React.createClass({
+
   render: function(){
     return (
-      <div onClick={this.props.onClick}>
+      <div onClick={this.props.onClick} onKeyPress={this.props.splashKeyPress}>
         Splash
       </div>
     )
