@@ -14,17 +14,17 @@ function populateRead(stories){
 		columns: document.getElementById("columns")
 	}
 
-	console.log("cat");
-	console.log(stories.length);
-	console.log(stories);
+	// console.log("cat");
+	// console.log(stories.length);
+	// console.log(stories);
 	// create card for each story
 	for (var storyIndex=0;storyIndex<stories.length;storyIndex++){
-		console.log(storyIndex);
+		// console.log(storyIndex);
 		var storyDiv = document.createElement("ul");
 		storyDiv.className = "storyItem";
 		// appending list of responses to card
 		for (var responseIndex=0;responseIndex<stories[storyIndex].length;responseIndex++){
-			console.log(responseIndex);
+			// console.log(responseIndex);
 			var singleResponse = document.createElement("li");
 			singleResponse.innerHTML = stories[storyIndex][responseIndex];
 			storyDiv.appendChild(singleResponse);
@@ -51,7 +51,7 @@ function retrieveStories(){
 			storyArray.push(singleStory);
 		});
 		initialDataLoaded = true;
-		console.log(initialDataLoaded);
+		// console.log(initialDataLoaded);
 		if (initialDataLoaded){
 			populateRead(storyArray);
 		}

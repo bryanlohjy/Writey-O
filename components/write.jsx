@@ -75,11 +75,7 @@ var App = React.createClass({
   },
   componentWillMount: function() {
     this.firebaseRef = firebase.database().ref("write");
-  },
-  componentDidMount: function() {
-    // applying styles
-    fullHeight('writeyO');
-    fullHeight('writeInput');
+
   },
   startTimer: function(e){
     e.preventDefault();
@@ -91,6 +87,12 @@ var App = React.createClass({
   },
   stopTimer: function(){
     clearInterval(this.interval);
+  },
+  restart: function(){
+    this.firebaseRef.push({
+      items: this.state.items
+    });
+    this.getInitialState();
   },
   saveOutput: function(){
     // preventDefault();
@@ -107,61 +109,19 @@ var App = React.createClass({
     // if the user has not started
     if (this.state.started == false){
        return (
-            <div>
-              <div className= "six columns" id="writeyO">
-                <Timer timeRemaining='xx'/>
-                <div>Have not Started</div>
-              </div>
-
-              <div className= "six columns" id="writeInput">
-                <div>
-                  <h3>Click to start</h3>
-                  <form onSubmit={this.startTimer}>
-                    <button>Write</button>
-                  </form>
-                </div>
-              </div>
-            </div>
+            <Splash onClick={this.startTimer} />
         )
+    // User has started
     } else if (this.state.started == true) {
+      // Session is running
       if (this.state.done == false) {
        return (
-            <div>
-              <div className= "six columns" id="writeyO">
-                <Timer timeRemaining={this.state.timeRemaining}/>
-                <Prompt promptNo = {this.state.promptNo} prompt={this.state.prompt}/>
-              </div>
-
-              <div className= "six columns" id="writeInput">
-                <div>
-                  <h3>Write</h3>
-                  <Entry items={this.state.items} />
-                  <form onSubmit={this.handleSubmit}>
-                    <input id="writeyoInput" onChange={this.onChange} value={this.state.response} autoComplete="off"/>
-                    <button>Write</button>
-                  </form>
-                </div>
-              </div>
-            </div>
+          <Session timeRemaining={this.state.timeRemaining} promptNo={this.state.promptNo} prompt={this.state.prompt} onChange={this.onChange} value={this.state.response} items={this.state.items} onSubmit={this.handleSubmit}/>
         )
+      // Session is over
       } else {
         return(
-            <div>
-              <div className= "six columns" id="writeyO">
-                <div>Done</div>
-              </div>
-
-              <div className= "six columns" id="writeInput">
-                <div>
-                  <h3>Write</h3>
-                  <Entry items={this.state.items} />
-                  <form onSubmit={this.saveOutput}>
-                    <input id="writeyoInput" onChange={this.onChange} value={this.state.response} autoComplete="off"/>
-                    <button>Save</button>
-                  </form>
-                </div>
-              </div>
-            </div>
+            <End items={this.state.items} saveOutput={this.saveOutput} restart={this.restart}/>
         )
       }     
     }
@@ -175,6 +135,72 @@ var App = React.createClass({
     )
   }
 });
+
+var Splash = React.createClass({
+  render: function(){
+    return (
+      <div onClick={this.props.onClick}>
+        Splash
+      </div>
+    )
+  }
+});
+
+var Session = React.createClass({
+  componentDidMount: function() {
+    // applying styles
+    fullHeight('writeyO');
+    fullHeight('writeInput');
+  },
+  render: function(){
+    return (
+      <div>
+        <div className= "six columns" id="writeyO">
+          <Timer timeRemaining={this.props.timeRemaining}/>
+          <Prompt promptNo = {this.props.promptNo} prompt={this.props.prompt}/>
+        </div>
+
+        <div className= "six columns" id="writeInput">
+          <div>
+            <h3>Write</h3>
+            <Entry items={this.props.items} />
+            <form onSubmit={this.props.onSubmit}>
+              <input id="writeyoInput" onChange={this.props.onChange} value={this.props.value} autoComplete="off"/>
+              <button>Write</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    )
+  }
+});
+
+var End = React.createClass({
+  render: function(){
+    return (
+      <div>
+        <div className= "six columns" id="writeyO">
+          <div>Done</div>
+        </div>
+
+        <div className= "six columns" id="writeInput">
+          <div>
+            <h3>Write</h3>
+            <Entry items={this.props.items} />
+            <form onSubmit={this.props.saveOutput}>
+              <button>Save</button>
+            </form>
+            <form onSubmit={this.props.restart}>
+              <button>Restart</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    )
+  }
+});
+
+
 
 var Timer = React.createClass({
   render: function(){

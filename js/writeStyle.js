@@ -3,8 +3,6 @@ var breakpoint = 768;
 
 
 
-
-
 // Resize Divs to Body Height
 function fullHeight(elementID){
 	var navHeight = document.getElementById('navBar').clientHeight;
