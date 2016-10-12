@@ -49,6 +49,7 @@ var App = React.createClass({
       this.resetCount();
       this.advancePromptNo();
     }
+    rotateWriteyO(writeConfig.noPrompts,this.state.promptNo);
   },
   resetCount: function() {
     this.setState({
@@ -80,10 +81,13 @@ var App = React.createClass({
   startTimer: function(e){
     // e.preventDefault();
     // countdown every second
+    if (this.state.started==false){
+      this.interval = setInterval(this.tick, 1000);
+    }
     this.setState({
       started: true
     });
-    this.interval = setInterval(this.tick, 1000);
+
   },
   stopTimer: function(){
     clearInterval(this.interval);
@@ -110,14 +114,12 @@ var App = React.createClass({
     document.addEventListener("keydown", this.splashKeyPress, false);
   },
   splashKeyPress: function(z){
+    z.preventDefault();
     var keyCode = z.keyCode;
     if(keyCode==13) {
       this.startTimer();
-      console.log("enterr");
-    } else {
-      console.log("notenetrer");
-    }
-    document.removeEventListener("keydown", this.splashKeyPress, false);
+      document.removeEventListener("keydown", this.splashKeyPress, false);
+    }    
   },
   conditionalRender: function() {
     // if the user has not started
@@ -151,11 +153,15 @@ var App = React.createClass({
 });
 
 var Splash = React.createClass({
-
+  componentDidMount: function() {
+    // applying styles
+    fullHeight('splash');
+    vertCenter('splash','splash-prompt', 0, 'padding');
+  },
   render: function(){
     return (
-      <div onClick={this.props.onClick} onKeyPress={this.props.splashKeyPress}>
-        Splash
+      <div onKeyPress={this.props.splashKeyPress} id="splash">
+        <h2 id="splash-prompt">Writey-O, press 'enter' to start!</h2>
       </div>
     )
   }
@@ -164,23 +170,32 @@ var Splash = React.createClass({
 var Session = React.createClass({
   componentDidMount: function() {
     // applying styles
-    fullHeight('writeyO');
-    fullHeight('writeInput');
+    fullHeight('session');
+    // fullHeight('session-left');
+    // fullHeight('session-right');
+    vertCenter('session-left','writeyO', 0 , 'margin');
+    vertCenter('writeyO','writeyO-timerPrompt', -40 , 'margin');
+    // vertCenter('writeyO','writeyO-prompt', 0 , 'padding');
   },
   render: function(){
     return (
-      <div>
-        <div className= "six columns" id="writeyO">
-          <Timer timeRemaining={this.props.timeRemaining}/>
-          <Prompt promptNo = {this.props.promptNo} prompt={this.props.prompt}/>
+      <div id="session">
+        <div className= "six columns" id="session-left">
+          <div id="writeyO">
+            <div id="writeyO-timerPrompt">
+              <Timer timeRemaining={this.props.timeRemaining} id="writeyO-timer"/>
+              <Prompt prompt={this.props.prompt} id="writeyO-prompt"/> 
+            </div>
+            <PromptNo noPrompts={writeConfig.noPrompts} currentPrompt={this.props.promptNo}/>
+          </div>
         </div>
 
-        <div className= "six columns" id="writeInput">
+        <div className= "six columns" id="session-right">
           <div>
             <h3>Write</h3>
             <Entry items={this.props.items} />
             <form onSubmit={this.props.onSubmit}>
-              <input id="writeyoInput" onChange={this.props.onChange} value={this.props.value} autoComplete="off"/>
+              <input id="writeyoInput" onChange={this.props.onChange} value={this.props.value} autoComplete="off" autoFocus/>
               <button>Write</button>
             </form>
           </div>
@@ -221,7 +236,7 @@ var Timer = React.createClass({
   render: function(){
     return (
       <div>
-        <div>Time Remaining: {this.props.timeRemaining}</div>
+        <h3>{this.props.timeRemaining}</h3>
       </div>
     )
   }
@@ -236,14 +251,62 @@ var Prompt = React.createClass({
   },
   render: function(){
     return (
-      <div>
-        <div>{this.props.promptNo}</div>
-        <div>{this.props.prompt.prompt}</div>
-      </div>
+        <h3 id="writeyO-prompt">{this.props.prompt.prompt}</h3>
     )
   }
 });
 
+
+
+
+
+var PromptNo = React.createClass({
+  getInitialState: function(){
+    return {
+      noPrompts: writeConfig.noPrompts,
+      promptArray: []
+    }
+  },
+  componentWillMount:function(){
+    var temporalCircArray = [];
+    for(var circs = 0; circs < this.props.noPrompts; circs++){
+      temporalCircArray.push(circs+1);
+    }
+    this.setState({promptArray: temporalCircArray})
+  },
+  componentDidMount:function(){
+    positionCircles(this.state.noPrompts);
+  },
+  render: function(){
+    var currentPrompt = this.props.currentPrompt;
+    var promptCircs = this.state.promptArray.map(function(circle,index) {
+      if (index+1 == currentPrompt){
+        return (
+          <div className = "writeyO-circ-length">
+            <li className="writeyO-circ writeyO-circ-active" key={index}>{circle}</li>
+          </div>
+          );
+      } else {
+        return (
+          <div className = "writeyO-circ-length">
+            <li className="writeyO-circ" key={index}>{circle}</li>
+          </div>
+          );        
+      }
+    });
+    return (
+      <ul id="writeyO-circ-container">{promptCircs}</ul>
+    );
+  }
+});
+
+
+
+    // render: function() {
+    //     var stationComponents = this.props.stations.map(function(station) {
+    //         return <div className="station">{station.call}</div>;
+    //     });
+    //     return <div>{stationComponents}</div>;
 
 // Adapted from React documentation example
 var Entry = React.createClass({
@@ -256,6 +319,7 @@ var Entry = React.createClass({
 });
 
 ReactDOM.render(<App />, document.getElementById('body'));
+
 
 
 
