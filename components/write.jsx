@@ -121,6 +121,16 @@ var App = React.createClass({
       document.removeEventListener("keydown", this.splashKeyPress, false);
     }    
   },
+  checkEnter: function(e){
+    // e.preventDefault();
+    var keyCode = e.keyCode;
+    console.log(keyCode);
+    if(keyCode===13) {
+      this.handleSubmit(e);
+      // this.startTimer();
+      // document.removeEventListener("keydown", this.splashKeyPress, false);
+    }     
+  },
   conditionalRender: function() {
     // if the user has not started
     if (this.state.started == false){
@@ -132,7 +142,7 @@ var App = React.createClass({
       // Session is running
       if (this.state.done == false) {
        return (
-          <Session timeRemaining={this.state.timeRemaining} promptNo={this.state.promptNo} prompt={this.state.prompt} onChange={this.onChange} value={this.state.response} items={this.state.items} onSubmit={this.handleSubmit}/>
+          <Session timeRemaining={this.state.timeRemaining} promptNo={this.state.promptNo} checkEnter={this.checkEnter} prompt={this.state.prompt} onChange={this.onChange} value={this.state.response} items={this.state.items} onSubmit={this.handleSubmit}/>
         )
       // Session is over
       } else {
@@ -192,11 +202,10 @@ var Session = React.createClass({
 
         <div className= "six columns" id="session-right">
           <div>
-            <h3>Write</h3>
             <Entry items={this.props.items} />
-            <form onSubmit={this.props.onSubmit}>
-              <input id="writeyoInput" onChange={this.props.onChange} value={this.props.value} autoComplete="off" autoFocus/>
-              <button>Write</button>
+            <form id="writey-O-Input">
+              <textarea className="writeyO-entry-input" onChange={this.props.onChange} onKeyDown={this.props.checkEnter} value={this.props.value} autoComplete="off" autoFocus/>
+              <button onClick={this.props.onSubmit}>Write</button>
             </form>
           </div>
         </div>
@@ -230,8 +239,6 @@ var End = React.createClass({
   }
 });
 
-
-
 var Timer = React.createClass({
   render: function(){
     return (
@@ -241,7 +248,6 @@ var Timer = React.createClass({
     )
   }
 });
-
 
 var Prompt = React.createClass({
   getInitialState: function(){
@@ -255,10 +261,6 @@ var Prompt = React.createClass({
     )
   }
 });
-
-
-
-
 
 var PromptNo = React.createClass({
   getInitialState: function(){
@@ -300,21 +302,12 @@ var PromptNo = React.createClass({
   }
 });
 
-
-
-    // render: function() {
-    //     var stationComponents = this.props.stations.map(function(station) {
-    //         return <div className="station">{station.call}</div>;
-    //     });
-    //     return <div>{stationComponents}</div>;
-
-// Adapted from React documentation example
 var Entry = React.createClass({
   render: function() {
     var createItem = function(item) {
-      return <li key={item.timestamp}>{item.response}</li>;
+      return <h4 className= "writeyO-entry" key={item.timestamp}>{item.response}</h4>;
     };
-    return <ul>{this.props.items.map(createItem)}</ul>;
+    return <div id="writeyO-entry-container">{this.props.items.map(createItem)}</div>;
   }
 });
 
