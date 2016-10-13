@@ -112,6 +112,13 @@ function positionCircles(noCircs){
 //     writeyO.childNodes["0"].childNodes[1].style.webkitTransform = 'rotate('+ -rotateBy+'deg)';
     
 // }
+function returnBracketVal(string){
+	var indexOpenBracket = string.indexOf("(") +1;
+	var indexClosedBracket = string.indexOf(")")-3;
+	var val = parseFloat(string.substring(indexOpenBracket,indexClosedBracket),10);
+	return val;
+}
+
 
 function rotateWriteyO(noCircs, index){
 	var container = document.getElementById('writeyO-circ-container');
@@ -125,15 +132,20 @@ function rotateWriteyO(noCircs, index){
 	for (var circIndex = 0; circIndex< containerNodes.length; circIndex++) {
 
 		// rotating length
-		var totalRotation = circIndex* rotateBy;
-		var currentRotUnparsed =containerNodes[circIndex].style.transform;
+		// var totalRotation = circIndex* rotateBy;
+		var currentRotUnparsed =containerNodes[circIndex].style.transform || containerNodes[circIndex].style.webkitTransform || containerNodes[circIndex].style.MozTransform || 
+								containerNodes[circIndex].style.msTransform || containerNodes[circIndex].style.OTransform;
 
-		var currentRot= parseFloat(currentRotUnparsed.replace(/[^0-9\.]/g, ''), 10);
+		var currentRot= returnBracketVal(currentRotUnparsed);
+		var newRot = currentRot - rotationUnit;
+		console.log("currentRot: " + currentRot);
+		console.log(circIndex + " currentRotUnparsed: " + currentRotUnparsed);
+		// console.log(circIndex + " rotationUnit: " + currentRot);
+		// console.log("rotationUnit: " + rotationUnit);
+		// console.log(circIndex+1 + " rotation: " + newRot);
+		
 
-		console.log(newRot);
-		var newRot = currentRot + rotationUnit;
-
-	    containerNodes[circIndex].style.transform = "rotate(" +  + "deg)";
+	    containerNodes[circIndex].style.transform = "rotate(" + newRot + "deg)";
 	    containerNodes[circIndex].style.webkitTransform = "rotate(" + newRot  + "deg)";
 	    containerNodes[circIndex].style.MozTransform = "rotate(" + newRot + "deg)";
 	    containerNodes[circIndex].style.msTransform = "rotate(" + newRot  + "deg)";
