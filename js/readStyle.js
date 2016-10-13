@@ -38,4 +38,4 @@ function checkWidth(){
 // 		fullHeight('columns');
 // 	}
 // };
-fullHeight('columns');
+// fullHeight('columns');

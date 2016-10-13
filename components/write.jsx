@@ -238,7 +238,7 @@ var End = React.createClass({
                 <button className="button"><i className="fa fa-repeat" aria-hidden="true"></i></button>
               </form>
               <a href="read.html">
-                <button className="button"><i className="fa fa-book" aria-hidden="true"></i></button>
+                <button onSubmit={this.props.saveOutput} className="button"><i className="fa fa-book" aria-hidden="true"></i></button>
               </a>
             </div>
           </div>
