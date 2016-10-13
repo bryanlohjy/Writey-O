@@ -21,15 +21,17 @@ var App = React.createClass({
     }
   },
   tick: function() {
-    // countdown
-    this.setState({
-      timeRemaining: this.state.timeRemaining - 1
-    });
+
     // if out of time 
-    if (this.state.timeRemaining == 0){
+    if (this.state.timeRemaining == 1){
         this.resetCount();
         this.advancePromptNo();
         this.submitBlank();
+    }else{
+      // countdown
+      this.setState({
+        timeRemaining: this.state.timeRemaining - 1
+      });  
     }
   },
   onChange: function(e) {
@@ -39,13 +41,14 @@ var App = React.createClass({
     var nextItems = this.state.items.concat([{response: this.state.response, timestamp: Date.now(), prompt: this.state.prompt.prompt, promptType: this.state.prompt.promptType, promptParam: this.state.prompt.param}]);
     var nextText = '';
     this.setState({items: nextItems, response: nextText});
+    rotateWriteyO(writeConfig.noPrompts,this.state.promptNo);
   },
   handleSubmit: function(e) {
     e.preventDefault();
     var nextItems = this.state.items.concat([{response: this.state.response, timestamp: Date.now(), prompt: this.state.prompt.prompt, promptType: this.state.prompt.promptType, promptParam: this.state.prompt.param}]);
     var nextText = '';
     this.setState({items: nextItems, response: nextText});
-    if (this.state.timeRemaining != 0){
+    if (this.state.timeRemaining != 1){
       this.resetCount();
       this.advancePromptNo();
     }
@@ -65,7 +68,7 @@ var App = React.createClass({
       });
     }else{
       this.setState({
-        promptNo: this.state.promptNo + 1,
+        promptNo: this.state.promptNo + 1
       });
       this.advancePrompt();
     }
