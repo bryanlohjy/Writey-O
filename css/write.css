@@ -113,6 +113,15 @@
     word-break: break-all;
     float:left;
     padding: 10px 20px;
+    background-color: rgba(255,255,255,0.3);
+    border-top:1px solid rgba(250,250,250,0.5);
+    color:rgba(250,250,250,1);
+}
+
+
+#writey-O-Input i{
+	font-size: 3.0em;
+	color:#4d002f;
 }
 
 #writey-O-Input button{
@@ -122,7 +131,21 @@
     float:left;
 }
 
+.button{
+	font-family: "Poppins", sans-serif;
+	text-transform: uppercase;
+    background-color: rgba(255,255,255,0.6);
+    cursor:pointer;
+    transition: background-color 0.5s ease;
+}
 
+.button:hover{
+    background-color: rgba(255,255,255,0.7);
+}
+
+.button:active{
+    background-color: rgba(255,255,255,0.8);
+}
 
 .writeyO-entry{
 	min-height: 70px;
@@ -165,4 +188,24 @@ h4 {
 	-moz-transition: transform 0.5s ease-in-out;
 	-o-transition: transform 0.5s ease-in-out;
 	transition: transform 0.5s ease-in-out;
+}
+
+
+#session-input{
+	position:absolute;
+	bottom:0px;
+	width:100%;
+	height:100px;
+}
+
+#session-input i{
+	font-size: 2.2em;
+	color:#4d002f;
+}
+
+#session-input button{
+	width:50%;
+	height:100px;
+	border:none;
+    float:left;
 }

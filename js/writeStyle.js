@@ -84,7 +84,7 @@ function positionCircles(noCircs){
 	var newMargin = existingContainerMargin + radius*2;
 
 	var writeyOCircRadius = writeyOCirc.offsetHeight/2
-	console.log(writeyOCircRadius);
+	// console.log(writeyOCircRadius);
 
 	container.style.marginTop = writeyOCircRadius + "px";
 
@@ -138,8 +138,8 @@ function rotateWriteyO(noCircs, index){
 
 		var currentRot= returnBracketVal(currentRotUnparsed);
 		var newRot = currentRot - rotationUnit;
-		console.log("currentRot: " + currentRot);
-		console.log(circIndex + " currentRotUnparsed: " + currentRotUnparsed);
+		// console.log("currentRot: " + currentRot);
+		// console.log(circIndex + " currentRotUnparsed: " + currentRotUnparsed);
 		// console.log(circIndex + " rotationUnit: " + currentRot);
 		// console.log("rotationUnit: " + rotationUnit);
 		// console.log(circIndex+1 + " rotation: " + newRot);

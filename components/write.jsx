@@ -124,7 +124,6 @@ var App = React.createClass({
   checkEnter: function(e){
     // e.preventDefault();
     var keyCode = e.keyCode;
-    console.log(keyCode);
     if(keyCode===13) {
       this.handleSubmit(e);
       // this.startTimer();
@@ -205,7 +204,7 @@ var Session = React.createClass({
             <Entry items={this.props.items} />
             <form id="writey-O-Input">
               <textarea className="writeyO-entry-input" onChange={this.props.onChange} onKeyDown={this.props.checkEnter} value={this.props.value} autoComplete="off" autoFocus/>
-              <button onClick={this.props.onSubmit}>Write</button>
+              <button onClick={this.props.onSubmit} className="button"><i className="fa fa-pencil" aria-hidden="true"></i></button>
             </form>
           </div>
         </div>
@@ -215,23 +214,33 @@ var Session = React.createClass({
 });
 
 var End = React.createClass({
+  componentDidMount: function() {
+    // applying styles
+    fullHeight('session');
+    // fullHeight('session-left');
+    // fullHeight('session-right');
+    vertCenter('session-left','writeyO', 0 , 'margin');
+    // vertCenter('writeyO','writeyO-prompt', 0 , 'padding');
+  },
   render: function(){
     return (
-      <div>
-        <div className= "six columns" id="writeyO">
-          <div>Done</div>
+      <div id="session">
+        <div className= "six columns" id="session-left">
+          <div id="writeyO">
+          </div>
         </div>
 
-        <div className= "six columns" id="writeInput">
+        <div className= "six columns" id="session-right">
           <div>
-            <h3>Write</h3>
             <Entry items={this.props.items} />
-            <form onSubmit={this.props.saveOutput}>
-              <button>Save</button>
-            </form>
-            <form onSubmit={this.props.restart}>
-              <button>Restart</button>
-            </form>
+            <div id="session-input">
+              <form onSubmit={this.props.saveOutput}>
+                <button className="button"><i className="fa fa-repeat" aria-hidden="true"></i></button>
+              </form>
+              <a href="read.html">
+                <button className="button"><i className="fa fa-book" aria-hidden="true"></i></button>
+              </a>
+            </div>
           </div>
         </div>
       </div>
