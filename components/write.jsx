@@ -57,16 +57,17 @@ var App = React.createClass({
     });
   },
   advancePromptNo: function() {
-    this.setState({
-      promptNo: this.state.promptNo + 1,
-    });
-    this.advancePrompt();
     // if prompt number reaches final amount
     if (this.state.promptNo == writeConfig.noPrompts){
       this.stopTimer();
       this.setState({
         done:true
       });
+    }else{
+      this.setState({
+        promptNo: this.state.promptNo + 1,
+      });
+      this.advancePrompt();
     }
   },
   advancePrompt: function() {
@@ -238,7 +239,7 @@ var End = React.createClass({
                 <button className="button"><i className="fa fa-repeat" aria-hidden="true"></i></button>
               </form>
               <a href="read.html">
-                <button onSubmit={this.props.saveOutput} className="button"><i className="fa fa-book" aria-hidden="true"></i></button>
+                <button onClick={this.props.saveOutput} className="button"><i className="fa fa-book" aria-hidden="true"></i></button>
               </a>
             </div>
           </div>
