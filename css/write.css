@@ -1,3 +1,7 @@
+*{
+	padding:0;
+}
+
 /*Splash Screen*/
 /*Typography*/
 #splash h2{
@@ -84,6 +88,11 @@
 /*Left Side*/
 #session-left{
 	height:100%;
+}
+
+#writeyO-indicator{
+	border-top:1px rgba(250,250,250,1.0);
+	border-right: 1px solid rgba(250,250,250,1.0);
 }
 
 /*Right Side*/
