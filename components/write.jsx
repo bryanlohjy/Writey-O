@@ -1,3 +1,4 @@
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 // Parameters for write application
 var writeConfig= {
       time: initWrite.time,
@@ -68,6 +69,7 @@ var App = React.createClass({
       this.setState({
         done:true
       });
+      document.addEventListener("keydown", this.endKeyPress, false);
     }
   },
   advancePrompt: function() {
@@ -86,16 +88,12 @@ var App = React.createClass({
     this.setState({
       started: true
     });
-
   },
   stopTimer: function(){
     clearInterval(this.interval);
   },
-  restart: function(){
-    this.firebaseRef.push({
-      items: this.state.items
-    });
-    this.getInitialState();
+  refresh: function(){
+    window.location.reload();
   },
   saveOutput: function(){
     this.firebaseRef.push({
@@ -117,6 +115,22 @@ var App = React.createClass({
       document.removeEventListener("keydown", this.splashKeyPress, false);
     }    
   },
+  splashClick: function(k){
+    k.preventDefault();
+    this.startTimer();
+    document.removeEventListener("keydown", this.splashKeyPress, false);
+  },
+  endKeyPress: function(z){
+    z.preventDefault();
+    var keyCode = z.keyCode;
+    if(keyCode==13) {
+      console.log("refreshpagepls");
+      this.refresh();
+    }    
+  },
+  endClick:function(){
+    this.refresh();
+  },
   checkEnter: function(e){
     var keyCode = e.keyCode;
     if(keyCode===13) {
@@ -127,7 +141,7 @@ var App = React.createClass({
     // if the user has not started
     if (this.state.started == false){
        return (
-            <Splash onClick={this.startTimer} onKeyPress={this.splashKeyPress}/>
+          <Splash splashClick={this.splashClick} onKeyPress={this.splashKeyPress}/>
         )
     // User has started
     } else if (this.state.started == true) {
@@ -137,13 +151,12 @@ var App = React.createClass({
           <Session timeRemaining={this.state.timeRemaining} promptNo={this.state.promptNo} checkEnter={this.checkEnter} prompt={this.state.prompt} onChange={this.onChange} value={this.state.response} items={this.state.items} onSubmit={this.handleSubmit}/>
         )
       // Session is over
-      } else {
+      } else if (this.state.done == true){
         return(
-            <End items={this.state.items} saveOutput={this.saveOutput} restart={this.restart}/>
+          <End items={this.state.items} saveOutput={this.saveOutput} restart={this.restart} endKeyPress={this.endKeyPress} endClick={this.endClick}/>
         )
       }     
     }
-
   },
   render: function() {
     return (
@@ -153,51 +166,49 @@ var App = React.createClass({
     )
   }
 });
-
 var Splash = React.createClass({
   componentDidMount: function() {
     // applying styles
     fullHeight('splash');
-    vertCenter('splash','splash-prompt', 0, 'padding');
+    vertCenter('splash','splash-writeyO', 0, 'margin');
+    vertCenter('splash-writeyO','splash-text', 0, 'margin');
   },
   render: function(){
     return (
-      <div onKeyPress={this.props.splashKeyPress} id="splash">
-        <h2 id="splash-prompt">Writey-O, press 'enter' to start!</h2>
+      <div onKeyPress={this.props.splashKeyPress} onClick={this.props.splashClick} id="splash">
+        <div id="splash-writeyO">
+          <h3 id="splash-text">Writey-O, tap or hit 'enter' to restart</h3>
+        </div>
       </div>
     )
   }
 });
-
 var Session = React.createClass({
   componentDidMount: function() {
     // applying styles
     fullHeight('session');
-    // fullHeight('session-left');
-    // fullHeight('session-right');
-    vertCenter('session-left','writeyO', 0 , 'margin');
-    vertCenter('writeyO','writeyO-timerPrompt', -40 , 'margin');
-    // vertCenter('writeyO','writeyO-prompt', 0 , 'padding');
+    vertCenter('session-left','session-writeyO', 0 , 'margin');
+    vertCenter('session-writeyO','session-writeyO-timerPrompt', -40 , 'margin');
+    styleIndicator();
   },
   render: function(){
     return (
       <div id="session">
         <div className= "six columns" id="session-left">
-          <div id="writeyO">
-            <div id="writeyO-timerPrompt">
-              <Timer timeRemaining={this.props.timeRemaining} id="writeyO-timer"/>
-              <Prompt prompt={this.props.prompt} id="writeyO-prompt"/> 
+          <div id="session-writeyO">
+            <div id="session-writeyO-timerPrompt">
+              <Timer timeRemaining={this.props.timeRemaining} id="session-writeyO-timer"/>
+              <Prompt prompt={this.props.prompt} id="session-writeyO-prompt"/> 
             </div>
             <PromptNo noPrompts={writeConfig.noPrompts} currentPrompt={this.props.promptNo}/>
           </div>
-          <div id="writeyO-indicator"></div>
+          <div id="session-writeyO-indicator"></div>
         </div>
-
         <div className= "six columns" id="session-right">
           <div>
             <Entry items={this.props.items} />
-            <form id="writey-O-Input">
-              <textarea className="writeyO-entry-input" onChange={this.props.onChange} onKeyDown={this.props.checkEnter} value={this.props.value} autoComplete="off" autoFocus/>
+            <form id="session-writey-O-Input">
+              <textarea className="session-writeyO-entry-input" onChange={this.props.onChange} onKeyDown={this.props.checkEnter} value={this.props.value} autoComplete="off" autoFocus/>
               <button onClick={this.props.onSubmit} className="button"><i className="fa fa-pencil" aria-hidden="true"></i></button>
             </form>
           </div>
@@ -206,42 +217,32 @@ var Session = React.createClass({
     )
   }
 });
-
 var End = React.createClass({
   componentDidMount: function() {
     // applying styles
-    fullHeight('session');
-    // fullHeight('session-left');
-    // fullHeight('session-right');
-    vertCenter('session-left','writeyO', 0 , 'margin');
-    // vertCenter('writeyO','writeyO-prompt', 0 , 'padding');
+    fullHeight('end');
+    vertCenter('end-left','end-writeyO', 0 , 'margin');
+    this.props.saveOutput();
+    vertCenter('end-left','end-writeyO', 0, 'margin');
+    vertCenter('end-writeyO','end-text', 0, 'margin');
   },
   render: function(){
     return (
-      <div id="session">
-        <div className= "six columns" id="session-left">
-          <div id="writeyO">
+      <div id="end" onKeyPress={this.props.endKeyPress} onClick={this.props.endClick}>
+        <div className= "six columns" id="end-left">
+          <div id="end-writeyO">
+            <h3 id="end-text">Your story has been saved, tap or hit 'enter' to restart.</h3>
           </div>
         </div>
-
-        <div className= "six columns" id="session-right">
+        <div className= "six columns" id="end-right">
           <div>
             <Entry items={this.props.items} />
-            <div id="session-input">
-              <form onSubmit={this.props.saveOutput}>
-                <button className="button"><i className="fa fa-repeat" aria-hidden="true"></i></button>
-              </form>
-              <a href="read.html">
-                <button onClick={this.props.saveOutput} className="button"><i className="fa fa-book" aria-hidden="true"></i></button>
-              </a>
-            </div>
           </div>
         </div>
       </div>
     )
   }
 });
-
 var Timer = React.createClass({
   render: function(){
     return (
@@ -251,7 +252,6 @@ var Timer = React.createClass({
     )
   }
 });
-
 var Prompt = React.createClass({
   getInitialState: function(){
     return {
@@ -260,11 +260,10 @@ var Prompt = React.createClass({
   },
   render: function(){
     return (
-        <h3 id="writeyO-prompt">{this.props.prompt.prompt}</h3>
+        <h3 id="session-writeyO-prompt">{this.props.prompt.prompt}</h3>
     )
   }
 });
-
 var PromptNo = React.createClass({
   getInitialState: function(){
     return {
@@ -287,30 +286,29 @@ var PromptNo = React.createClass({
     var promptCircs = this.state.promptArray.map(function(circle,index) {
       if (index+1 == currentPrompt){
         return (
-          <div className = "writeyO-circ-length">
-            <li className="writeyO-circ writeyO-circ-active" key={index}>{circle}</li>
+          <div className = "session-writeyO-circ-length">
+            <li className="session-writeyO-circ session-writeyO-circ-active" key={index}>{circle}</li>
           </div>
           );
       } else {
         return (
-          <div className = "writeyO-circ-length">
-            <li className="writeyO-circ" key={index}>{circle}</li>
+          <div className = "session-writeyO-circ-length">
+            <li className="session-writeyO-circ" key={index}>{circle}</li>
           </div>
           );        
       }
     });
     return (
-      <ul id="writeyO-circ-container">{promptCircs}</ul>
+      <ul id="session-writeyO-circ-container">{promptCircs}</ul>
     );
   }
 });
-
 var Entry = React.createClass({
   render: function() {
     var createItem = function(item) {
-      return <h4 className= "writeyO-entry" key={item.timestamp}>{item.response}</h4>;
+      return <h4 className= "session-writeyO-entry" key={item.timestamp}>{item.response}</h4>;
     };
-    return <div id="writeyO-entry-container">{this.props.items.map(createItem)}</div>;
+    return <div id="session-writeyO-entry-container">{this.props.items.map(createItem)}</div>;
   }
 });
 

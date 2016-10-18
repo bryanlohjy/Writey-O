@@ -40,11 +40,11 @@ function vertCenter(parentID,childID,offset, paddingOrMargin){
 
 // Writey-O--------------
 function positionCircles(noCircs){
-	var container = document.getElementById('writeyO-circ-container');
-	var containerNodes = document.getElementById('writeyO-circ-container').childNodes;
+	var container = document.getElementById('session-writeyO-circ-container');
+	var containerNodes = document.getElementById('session-writeyO-circ-container').childNodes;
 	var radius;
 
-	var writeyOCirc = document.getElementById('writeyO');
+	var writeyOCirc = document.getElementById('session-writeyO');
 
 	var originRotation = 180;
 	var rotationUnit = 360/noCircs;
@@ -121,11 +121,11 @@ function returnBracketVal(string){
 
 
 function rotateWriteyO(noCircs, index){
-	var container = document.getElementById('writeyO-circ-container');
-	var containerNodes = document.getElementById('writeyO-circ-container').childNodes;
+	var container = document.getElementById('session-writeyO-circ-container');
+	var containerNodes = document.getElementById('session-writeyO-circ-container').childNodes;
 	var radius;
 
-	var writeyOCirc = document.getElementById('writeyO');
+	var writeyOCirc = document.getElementById('session-writeyO');
 	var rotationUnit = 360/noCircs;
 	var rotateBy = rotationUnit;
 
@@ -167,7 +167,32 @@ function rotateWriteyO(noCircs, index){
 	}
 }
 
+function styleIndicator(){
+	var borderWidth = 2;
+	var indicator = document.getElementById('session-writeyO-indicator');
+	var inputForm = document.getElementById('session-writey-O-Input');
+	var inputFormHeight=inputForm.clientHeight;
+	// Bottom offset
+	indicator.style.bottom= inputFormHeight+"px";
+	// adjusting height
+	var sessionLeft = document.getElementById('session-left');
+	var sessionLeftWidth=sessionLeft.offsetWidth;
+	var sessionLeftHeight=sessionLeft.clientHeight;
+	indicator.style.height= (sessionLeftHeight/2-inputFormHeight)- borderWidth +"px";
+	// adjusting width
+	var writeyORM = document.getElementById('session-writeyO');
+	var writeyORM = writeyORM.offsetWidth; 
+	var activeCirc = document.getElementsByClassName('session-writeyO-circ-active');
+	var activeCircRadius = activeCirc[0].offsetWidth/2;
+	var indicWidth = ((sessionLeftWidth-(activeCircRadius + writeyORM))/2) - 3;
 
+	
+	console.log(activeCircRadius);
+	indicator.style.width = indicWidth + "px";
+
+	// console.log(writeyORightMargin);
+	// indicator.style.width= writeyORightMargin+"px";
+}
 
 
 
