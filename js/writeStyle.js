@@ -194,9 +194,58 @@ function styleIndicator(){
 	// indicator.style.width= writeyORightMargin+"px";
 }
 
+function changeBG(colorIndex){
+	var backgroundColours=[
+		"rgb(245, 0, 149)",
+		"rgb(149,2,20)",
+		"rgb(77,20,100)",
+	];
+	var docBody=document.body;
 
 
+	loopColIndex = colorIndex%backgroundColours.length;
+	currentCol = backgroundColours[loopColIndex];
+	// Background
+	docBody.style.backgroundColor = currentCol;
 
+	// Inactive circs
+	// .session-writeyO-circ
+	var allCircs = [];
+	var circClass = document.getElementsByClassName('session-writeyO-circ');
+	for(var circClassIndex=0;circClassIndex<circClass.length;circClassIndex++){
+		allCircs.push(circClass[circClassIndex]);
+	}
+
+	// var inactiveCircles=[]
+
+	for(var inacCheckedIndex=0;inacCheckedIndex<allCircs.length;inacCheckedIndex++){
+		allCircs[inacCheckedIndex].style.backgroundColor=currentCol;
+		allCircs[inacCheckedIndex].style.color="white";
+	}
+	// Look for active class and apply diff styles
+	for(var inacIndex=0;inacIndex<allCircs.length-1;inacIndex++){
+		if(hasClass(allCircs[inacIndex],"session-writeyO-circ-active")==true){
+			allCircs[inacIndex+1].style.backgroundColor="white";
+			allCircs[inacIndex+1].style.color=currentCol;
+		}
+	}
+	// var allCircs = document.getElementsByClassName('session-writeyO-circ-active');
+
+	// console.log(inactiveCircles);
+	// for(var inacCheckedIndex=0;inacCheckedIndex<inactiveCircles.length;inacCheckedIndex++){
+	// 	inactiveCircles[inacCheckedIndex].style.backgroundColor=currentCol;
+	// }
+	// Active circ font
+	// var activeCircCol = document.getElementsByClassName('session-writeyO-circ-active')[0];
+	// activeCircCol.style.color=currentCol;
+	// Icon
+
+	console.log(loopColIndex);
+}
+
+function hasClass(element, cls) {
+    return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+}
 // document.getElementById('button').onclick = function() {
 //     var div = document.getElementById('div'),
 //         deg = rotated ? 0 : 66;

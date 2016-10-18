@@ -1,4 +1,4 @@
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+// var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 // Parameters for write application
 var writeConfig= {
       time: initWrite.time,
@@ -57,7 +57,6 @@ var App = React.createClass({
     });
   },
   advancePromptNo: function() {
-    rotateWriteyO(writeConfig.noPrompts,this.state.promptNo);
     console.log("advancing promptNo: "+ this.state.promptNo);
     this.setState({
       promptNo: this.state.promptNo + 1
@@ -71,6 +70,9 @@ var App = React.createClass({
       });
       document.addEventListener("keydown", this.endKeyPress, false);
     }
+    changeBG(this.state.promptNo);
+    rotateWriteyO(writeConfig.noPrompts,this.state.promptNo);
+
   },
   advancePrompt: function() {
     console.log("advancing prompt: "+ this.state.promptNo);

@@ -4,7 +4,9 @@ Credit to Kushagra Agarwal and Pixleight
 http://cssdeck.com/labs/css-only-pinterest-style-columns-layout
 
 */
-
+body{
+	background-color: rgba(153,0,93,1);
+}
 #body {
 
 
