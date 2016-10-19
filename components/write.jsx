@@ -169,6 +169,9 @@ var App = React.createClass({
   }
 });
 var Splash = React.createClass({
+  componentWillMount: function() {
+    checkWidth();
+  },
   componentDidMount: function() {
     styleSplash();
     currentState="splash";
@@ -177,7 +180,7 @@ var Splash = React.createClass({
     return (
       <div onKeyPress={this.props.splashKeyPress} onClick={this.props.splashClick} id="splash">
         <div id="splash-writeyO">
-          <h3 id="splash-text">Writey-O, tap or hit 'enter' to restart</h3>
+          <h3 id="splash-text">Writey-O, tap or hit 'enter' to start</h3>
         </div>
       </div>
     )

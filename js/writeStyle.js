@@ -1,6 +1,4 @@
 // Define Breakpoints
-
-
 var tablet;
 var currentState;
 // Browser Width Check ---------------------
@@ -204,7 +202,15 @@ function changeBG(colorIndex){
 		}
 	}
 }
+function refreshSplashText(){
+	var splashText=document.getElementById('splash-text');
+	if(tablet==true){
+		splashText.innerHTML="Writey-O, tap to start."
+	}else if(!tablet){
+		splashText.innerHTML="Writey-O, hit enter to start."	
+	}
 
+}
 function hasClass(element, cls) {
     return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
 }
@@ -213,6 +219,7 @@ function clearStyleAttr(idName){
 	console.log("removedattr");
 }
 function styleSplash(){
+	refreshSplashText();
     fullHeight('splash');
     vertCenter('splash','splash-writeyO', 0, 'margin');
     vertCenter('splash-writeyO','splash-text', 0, 'margin');
