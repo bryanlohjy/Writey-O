@@ -255,7 +255,6 @@ body{
 	}
 	#session-right{
 		height:50%;
-		overflow-y:scroll;
 	}
 	#session-writeyO-timerPrompt {
 	    left: 0;
@@ -313,6 +312,7 @@ body{
 		bottom:55px;
 		font-size:75%;
 		padding: 10px 0px;
+		overflow-y:scroll;
 	}
 	.session-writeyO-entry{
 		min-height: 20px;
