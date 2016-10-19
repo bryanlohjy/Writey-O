@@ -170,10 +170,8 @@ var App = React.createClass({
 });
 var Splash = React.createClass({
   componentDidMount: function() {
-    // applying styles
-    fullHeight('splash');
-    vertCenter('splash','splash-writeyO', 0, 'margin');
-    vertCenter('splash-writeyO','splash-text', 0, 'margin');
+    styleSplash();
+    currentState="splash";
   },
   render: function(){
     return (
@@ -188,10 +186,8 @@ var Splash = React.createClass({
 var Session = React.createClass({
   componentDidMount: function() {
     // applying styles
-    fullHeight('session');
-    vertCenter('session-left','session-writeyO', 0 , 'margin');
-    vertCenter('session-writeyO','session-writeyO-timerPrompt', -40 , 'margin');
-    styleIndicator();
+    styleSession();
+    currentState="session";
   },
   render: function(){
     return (
@@ -222,11 +218,8 @@ var Session = React.createClass({
 var End = React.createClass({
   componentDidMount: function() {
     // applying styles
-    fullHeight('end');
-    vertCenter('end-left','end-writeyO', 0 , 'margin');
-    this.props.saveOutput();
-    vertCenter('end-left','end-writeyO', 0, 'margin');
-    vertCenter('end-writeyO','end-text', 0, 'margin');
+    styleEnd();
+    currentState="end";
   },
   render: function(){
     return (
@@ -248,7 +241,7 @@ var End = React.createClass({
 var Timer = React.createClass({
   render: function(){
     return (
-      <div>
+      <div id="countdown">
         <h3>{this.props.timeRemaining}</h3>
       </div>
     )
