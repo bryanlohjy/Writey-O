@@ -251,6 +251,13 @@ body{
         font-size: 75%;
         margin-top: 300px;
 	}
+	.session-writey-O-Input button{
+		display:hidden;
+		visibility: none;
+	}
+	#session-writey-O-Input textarea{
+		width:100%;
+	}
 }
 
 /*Mobile*/
