@@ -1,27 +1,31 @@
 // Define Breakpoints
 var tablet;
+var mobileNav;
 var currentState;
 // Browser Width Check ---------------------
 function checkWidth(){
-	var breakpoint = 768;
+	var tabletBreak = 768;
 	var windowWidth = window.innerWidth;
-	if(windowWidth<=breakpoint){
+	if(windowWidth<=tabletBreak){
 		tablet=true;
-	}else if (windowWidth>breakpoint){
+	}else if (windowWidth>tabletBreak){
 		tablet=false;
+	}
+	var mobileBreak = 580;
+	var windowWidth = window.innerWidth;
+	if(windowWidth<=mobileBreak){
+		mobileNav=true;
+	}else if (windowWidth>mobileBreak){
+		mobileNav=false;
 	}
 }
 // Invoke width check on resize and initial load --------------------------
 window.onresize=function(){
 	checkWidth();
-	console.log(window.innerWidth);
-	console.log("currentstate"+currentState);
 	if(currentState=="splash"){
 		styleSplash();
-		console.log("styledSplash");
 	}else if(currentState=="session"){
 		styleSession();
-		console.log("styledSession");
 	}else if(currentState=="end"){
 		console.log("end");
 	}
@@ -29,12 +33,15 @@ window.onresize=function(){
 }
 window.onload=function(){
 	checkWidth();
-	console.log(window.innerWidth);
-	console.log("tablet="+tablet);
 }
 // Resize Divs to Body Height
 function fullHeight(elementID){
-	var navHeight = document.getElementById('navBar').clientHeight;
+	// If mobile is true, true full height to compensate for invisible nav
+	if(mobileNav==true){
+		var navHeight = 0;
+	}else{
+		var navHeight = document.getElementById('navBar').clientHeight;
+	}
 	var windowHeight = window.innerHeight;
 	var bodyHeight = windowHeight - navHeight;
 	document.getElementById(elementID).style.height = bodyHeight+"px";
@@ -167,7 +174,6 @@ function styleIndicator(){
 	var activeCirc = document.getElementsByClassName('session-writeyO-circ-active');
 	var activeCircRadius = activeCirc[0].offsetWidth/2;
 	var indicWidth = ((sessionLeftWidth-(activeCircRadius + writeyORM))/2) - 3;
-	console.log(activeCircRadius);
 	indicator.style.width = indicWidth + "px";
 }
 function changeBG(colorIndex){
@@ -216,7 +222,6 @@ function hasClass(element, cls) {
 }
 function clearStyleAttr(idName){
 	document.getElementById(idName).removeAttribute('style');
-	console.log("removedattr");
 }
 function styleSplash(){
 	refreshSplashText();
