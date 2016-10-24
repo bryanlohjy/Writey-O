@@ -247,9 +247,16 @@ function styleSession(){
 }
 function styleEnd(){
     fullHeight('end');
-    vertCenter('end-left','end-writeyO', 0 , 'margin');
-    this.props.saveOutput();
-    vertCenter('end-left','end-writeyO', 0, 'margin');
-    vertCenter('end-writeyO','end-text', 0, 'margin');
+	if(!tablet){
+	    vertCenter('end-left','end-writeyO', 0 , 'margin');
+	    vertCenter('end-left','end-writeyO', 0, 'margin');
+	    vertCenter('end-writeyO','end-text', 0, 'margin');
+	} else if (tablet==true){
+		clearStyleAttr('session-writeyO');
+		clearStyleAttr('session-writeyO-timerPrompt');
+	    // vertCenter('session-left','session-writeyO', 0 , 'padding');
+	    // vertCenter('session-writeyO','session-writeyO-timerPrompt', 0 , 'margin');
+	    // styleIndicator();
+	}
 }
 

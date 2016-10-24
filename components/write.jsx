@@ -220,6 +220,8 @@ var Session = React.createClass({
 });
 var End = React.createClass({
   componentDidMount: function() {
+    // push to firebase
+    // this.props.saveOutput();
     // applying styles
     styleEnd();
     currentState="end";
@@ -229,7 +231,9 @@ var End = React.createClass({
       <div id="end" onKeyPress={this.props.endKeyPress} onClick={this.props.endClick}>
         <div className= "six columns" id="end-left">
           <div id="end-writeyO">
-            <h3 id="end-text">Your story has been saved, tap or hit 'enter' to restart.</h3>
+            <div id="end-writeyO-text">
+                <h3 id="end-text">Your story has been saved, tap or hit 'enter' to restart.</h3>
+            </div>
           </div>
         </div>
         <div className= "six columns" id="end-right">
