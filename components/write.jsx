@@ -34,7 +34,7 @@ var App = React.createClass({
     this.setState({response: e.target.value});
   },
   submitBlank: function() {
-    console.log("submitting blank: "+ this.state.promptNo);
+    // console.log("submitting blank: "+ this.state.promptNo);
     var nextItems = this.state.items.concat([{response: this.state.response, timestamp: Date.now(), prompt: this.state.prompt.prompt, promptType: this.state.prompt.promptType, promptParam: this.state.prompt.param}]);
     var nextText = '';
     this.setState({items: nextItems, response: nextText});
@@ -42,7 +42,7 @@ var App = React.createClass({
     this.advancePromptNo();
   },
   handleSubmit: function(e) {
-    console.log("submitting: "+ this.state.promptNo);
+    // console.log("submitting: "+ this.state.promptNo);
     e.preventDefault();
     var nextItems = this.state.items.concat([{response: this.state.response, timestamp: Date.now(), prompt: this.state.prompt.prompt, promptType: this.state.prompt.promptType, promptParam: this.state.prompt.param}]);
     var nextText = '';
@@ -51,13 +51,15 @@ var App = React.createClass({
     this.advancePromptNo();
   },
   resetCount: function() {
-    console.log("resetting countdown: "+ this.state.promptNo);
+    // console.log("resetting countdown: "+ this.state.promptNo);
     this.setState({
       timeRemaining: writeConfig.time
     });
   },
   advancePromptNo: function() {
-    console.log("advancing promptNo: "+ this.state.promptNo);
+    // console.log("advancing promptNo: "+ this.state.promptNo);
+    rotateWriteyO(writeConfig.noPrompts);
+    changeBG(this.state.promptNo);
     this.setState({
       promptNo: this.state.promptNo + 1
     });
@@ -70,17 +72,16 @@ var App = React.createClass({
       });
       document.addEventListener("keydown", this.endKeyPress, false);
     }
-    changeBG(this.state.promptNo);
-    rotateWriteyO(writeConfig.noPrompts,this.state.promptNo);
 
   },
   advancePrompt: function() {
-    console.log("advancing prompt: "+ this.state.promptNo);
+    // console.log("advancing prompt: "+ this.state.promptNo);
     this.setState({
       prompt: writeConfig.prompts[this.state.promptNo]
     });
   },
   componentWillMount: function() {
+    checkWidth();
     this.firebaseRef = firebase.database().ref("write");
   },
   startTimer: function(e){
@@ -126,7 +127,7 @@ var App = React.createClass({
     z.preventDefault();
     var keyCode = z.keyCode;
     if(keyCode==13) {
-      console.log("refreshpagepls");
+      // console.log("refreshpagepls");
       this.refresh();
     }    
   },
@@ -170,7 +171,6 @@ var App = React.createClass({
 });
 var Splash = React.createClass({
   componentWillMount: function() {
-    checkWidth();
   },
   componentDidMount: function() {
     styleSplash();
