@@ -221,7 +221,7 @@ var Session = React.createClass({
 var End = React.createClass({
   componentDidMount: function() {
     // push to firebase
-    // this.props.saveOutput();
+    this.props.saveOutput();
     // applying styles
     styleEnd();
     currentState="end";

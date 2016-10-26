@@ -198,12 +198,14 @@ function styleIndicator(){
 }
 function changeBG(colorIndex){
 	var backgroundColours=[
-		"rgb(11,0,51)",
-		"rgb(85,76,97)",
-		"rgb(134,77,92)",
-		"rgb(199,102,69)",
-		"rgb(240,131,62)",
-		"rgb(170,206,22)"
+		"rgb(242,140,128)",
+		"rgb(242,114,128)",
+		"rgb(224,108,134)",
+		"rgb(205,108,140)",
+		"rgb(179,92,125)",
+		"rgb(146,92,125)",
+		"rgb(89,92,125)",
+		"rgb(51,92,125)"
 	];
 	var docBody=document.body;
 	loopColIndex = colorIndex%backgroundColours.length;

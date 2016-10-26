@@ -1,40 +1,3 @@
-// Parameters for read interface
-// var readConfig= {
-//       stories: returnedStories
-// };Z
-
-// var App = React.createClass({
-// 	getInitialState: function() {
-// 	    return {
-// 	      stories: readConfig.stories
-// 	    }
-// 	},
-// 	componentDidMount: function() {
-// 		// applying styles
-// 		fullHeight('columns');
-// 	},
-//     render: function() {
-//         var storyComponents = this.state.stories.map(function(stories) {
-//             return <div>{stories}</div>;
-//         });
-//         return <div id="columns">{storyComponents}</div>;
-//     }
-// });
-
-// var StoryItem = React.createClass({
-// 	render: function() {
-// 		return (
-// 		    <div className="storyItem">
-// 		        {this.props.}
-// 		    </div>
-// 		)
-// 	}
-// });
-
-
-// ReactDOM.render(<Test />, document.getElementById('body'));
-
-
 var stories = [
 	["What does pittance even mean", 
 	"Hallucinations are more frequent ", 
@@ -54,32 +17,44 @@ var stories = [
 	 "DAMNATION UPON THEM",
 	 "RAAAAARR RARR ARR"]
 ]; 
-
-
-var Globe ={
-	returnedStories: readInit.returnedStories
-};
-// var stories = readInit.returnedStories;
-var cattt = 2;
-// var stories = returnedStories;
-
+// var Globe ={
+// 	returnedStories: readInit.returnedStories
+// };
 var App = React.createClass({
 	getInitialState: function() {
 		return {
-			stories: [],
+			stories: []
 		}
 	},
 	componentDidMount: function() {
 	},
 	componentWillMount: function() {
-		this.setState({
-			stories: readInit.returnedStories
-		})
-		// readInit.retrieveStories();
-		// this.setState({
-		// 	stories: retrieveStories();
-		// });
+		// this.firebaseRef = new Firebase("https://ReactFireTodoApp.firebaseio.com/items/");
+		// this.firebaseRef.on("child_added", function(dataSnapshot) {
+		//   this.items.push(dataSnapshot.val());
+		//   this.setState({
+		//     items: this.items
+		//   });
+		// }.bind(this));
+
+		this.firebaseRef = firebase.database().ref("write");
+		this.firebaseRef.on("child_added", function(dataSnapshot) {
+			this.stories.push(dataSnapshot.val());
+			this.setState({
+				stories: this.write
+			});
+		}.bind(this));
 	},
+
+// app.onFirebaseLogin = function(event) {
+//   this.ref = new Firebase(this.firebaseURL + '/user/' + 
+//                                                   event.detail.user.uid);
+//   var self = this;
+//   this.ref.on('value', function(snapshot) {
+//     self.updateArticole(snapshot);
+//   });
+// };
+
     render: function() {
         var storyComponents = stories.map(function(story,index) {
         	var sentences = stories[index].map(function(sentence,i) {
@@ -90,8 +65,6 @@ var App = React.createClass({
         return <div id="columns">{storyComponents}</div>;
     }
 });
-
-
 var StoryItem = React.createClass({
 	handleClick: function(){
 		console.log("potato has been clicked");
@@ -101,9 +74,6 @@ var StoryItem = React.createClass({
 		return <ul className="storyItem" onClick={this.handleClick}>{this.props.storyNo}{this.props.story}</ul>
 	}
 });
-
-
-
 ReactDOM.render(<App />, document.getElementById('body'));
 
 
